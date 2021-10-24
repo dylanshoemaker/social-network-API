@@ -51,10 +51,33 @@ const thoughtController = {
     )
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
-          res.status(404).json({ message: "The thought must have been forgotten because its nowhere to be found" });
+          res
+            .status(404)
+            .json({
+              message:
+                "The thought must have been forgotten because its nowhere to be found",
+            });
           return;
         }
         res.json(dbThoughtData);
+      })
+      .catch((err) => res.json(err));
+  },
+  updateThought({ params, body }, res) {
+    Thought.findOneAndUpdate({ _id: params.id }, body, {
+      new: true,
+      runValidators: true,
+    })
+      .then((updatedThought) => {
+        if (!updatedThought) {
+          return res
+            .status(404)
+            .json({
+              message:
+                "The thought must have been forgotten because its nowhere to be found",
+            });
+        }
+        res.json(updatedThought);
       })
       .catch((err) => res.json(err));
   },
