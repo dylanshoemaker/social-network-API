@@ -51,12 +51,10 @@ const thoughtController = {
     )
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
-          res
-            .status(404)
-            .json({
-              message:
-                "The thought must have been forgotten because its nowhere to be found",
-            });
+          res.status(404).json({
+            message:
+              "The thought must have been forgotten because its nowhere to be found",
+          });
           return;
         }
         res.json(dbThoughtData);
@@ -70,30 +68,42 @@ const thoughtController = {
     })
       .then((updatedThought) => {
         if (!updatedThought) {
-          return res
-            .status(404)
-            .json({
-              message:
-                "The thought must have been forgotten because its nowhere to be found",
-            });
+          return res.status(404).json({
+            message:
+              "The thought must have been forgotten because its nowhere to be found",
+          });
         }
         res.json(updatedThought);
       })
       .catch((err) => res.json(err));
   },
-  
+
   //remove thoughts huh, this could be useful
   removeThought({ params }, res) {
     Thought.findOneAndDelete({ _id: params.id })
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
-          res.status(404).json({ message: "The thought must have been forgotten because its nowhere to be found" });
+          res.status(404).json({
+            message:
+              "The thought must have been forgotten because its nowhere to be found",
+          });
           return;
         }
         res.json(dbThoughtData);
       })
       .catch((err) => res.status(400).json(err));
   },
+  
+  //remove reactions, the spock  approach 
+  removeReaction({ params }, res) {
+    Thought.findOneAndUpdate(
+      { _id: params.thoughtId },
+      { $pull: { reactions: { reactionId: params.reactionId } } },
+      { new: true }
+  )
+    .then(dbThoughtData => res.json(dbThoughtData))
+    .catch(err => res.json(err));
+},
 };
 
 module.exports = thoughtController;
