@@ -24,7 +24,7 @@ const thoughtController = {
   },
 
   //post thought
-  createThought({ body }, res) {
+  addThought({ body }, res) {
     Thought.create(body)
       .then(({ _id }) => {
         return User.findOneAndUpdate(
@@ -94,7 +94,7 @@ const thoughtController = {
       .catch((err) => res.status(400).json(err));
   },
   
-  //remove reactions, the spock  approach 
+  //remove reactions, the spock approach 
   removeReaction({ params }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },

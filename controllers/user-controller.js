@@ -2,7 +2,7 @@ const { User } = require("../models");
 
 //get all users
 const userController = {
-  getAllUser(req, res) {
+  getAllUsers(req, res) {
     User.find({})
       .populate({
         path: "thoughts",
@@ -36,7 +36,7 @@ const userController = {
   },
 
   // createUser
-  createUser({ body }, res) {
+  addUser({ body }, res) {
     User.create(body)
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(400).json(err));
@@ -84,7 +84,7 @@ const userController = {
       .catch((err) => res.json(err));
   },
   //delete User
-  deleteUser({ params }, res) {
+  removeUser({ params }, res) {
     User.findOneAndDelete({ _id: params.id })
       .then((dbUserData) => {
         if (!dbUserData) {
