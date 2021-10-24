@@ -14,35 +14,32 @@ const UserSchema = new Schema(
       required: 'You need to provide an email!',
       trim: true,
     },
-  //   thoughts: [
-  //     {
-  //       type: Schema.Types.ObjectId,
-  //       ref: "Thought",
-  //     },
-  //   ],
-  //   friends: [
-  //     {
-  //       type: Schema.Types.ObjectId,
-  //       ref: "User",
-  //     },
-  //   ],
-  // },
-  // {
-  //   toJSON: {
-  //     virtuals: true,
-  //     getters: true,
-  //   },
-  //   id: false,
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Thought",
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+  },
+  {
+    toJSON: {
+      virtuals: true,
+      getters: true,
+    },
+    id: false,
   }
 );
 
-// get total count of comments and replies on retrieval
-// UserSchema.virtual("thoughtCount").get(function () {
-//   return this.thought.reduce(
-//     (total, thought) => total + thought.replies.length + 1,
-//     0
-//   );
-// });
+
+UserSchema.virtual("friendCount").get(function () {
+  return this.friends.length;
+});
 
 
 // create the User model using the UserSchema
