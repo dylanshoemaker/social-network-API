@@ -66,7 +66,7 @@ const userController = {
     })
       .then((dbUserData) => {
         if (!dbUserData) {
-          res.status(404).json({ message: "No User found with this id!" });
+          res.status(404).json({ message: "We couldn't find this user" });
           return;
         }
         res.json(dbUserData);
@@ -82,6 +82,18 @@ const userController = {
     )
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.json(err));
+  },
+  //delete User
+  deleteUser({ params }, res) {
+    User.findOneAndDelete({ _id: params.id })
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "We couldn't find this user" });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => res.status(400).json(err));
   },
 };
 
