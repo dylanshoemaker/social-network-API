@@ -81,6 +81,19 @@ const thoughtController = {
       })
       .catch((err) => res.json(err));
   },
+  
+  //remove thoughts huh, this could be useful
+  removeThought({ params }, res) {
+    Thought.findOneAndDelete({ _id: params.id })
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
+          res.status(404).json({ message: "The thought must have been forgotten because its nowhere to be found" });
+          return;
+        }
+        res.json(dbThoughtData);
+      })
+      .catch((err) => res.status(400).json(err));
+  },
 };
 
 module.exports = thoughtController;
