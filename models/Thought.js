@@ -33,7 +33,7 @@ const ReactionSchema = new Schema(
 
 const ThoughtSchema = new Schema(
   {
-    commentBody: {
+    thoughtText: {
       type: String,
       required: true,
       minlength: 1,
@@ -62,7 +62,7 @@ const ThoughtSchema = new Schema(
   }
 );
 
-// get total count of comments and replies on retrieval
+// get total count of reactions on retrieval
 ThoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
