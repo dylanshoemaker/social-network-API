@@ -3,7 +3,6 @@ const dateFormat = require("../utils/dateFormat");
 
 const ReactionSchema = new Schema(
   {
-    //Reaction (SCHEMA ONLY)
     reactionId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId()
@@ -49,8 +48,7 @@ const ThoughtSchema = new Schema(
       required: true,
       ref: "User",
     },
-
-    // use  reaction Schema to validate data for a reply
+    
     reactions: [ReactionSchema],
   },
   {

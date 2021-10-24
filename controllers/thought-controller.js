@@ -61,6 +61,7 @@ const thoughtController = {
       })
       .catch((err) => res.json(err));
   },
+  // update thoughts, this is where you grow as a person
   updateThought({ params, body }, res) {
     Thought.findOneAndUpdate({ _id: params.id }, body, {
       new: true,
