@@ -23,6 +23,10 @@ const userController = {
         path: "thoughts",
         select: "-__v",
       })
+      .populate({
+        path: "friends",
+        select: "-__v",
+      })
       .select("-__v")
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => {
@@ -36,6 +40,23 @@ const userController = {
     User.create(body)
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(400).json(err));
+  },
+
+  //this is where i would put my friends, if i had any #timmyturner
+  addFriend({ params }, res) {
+    User.findOneAndUpdate(
+      { _id: params.userId },
+      { $push: { friends: params.friendId } },
+      { new: true, runValidators: true }
+    )
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "We couldn't find this user" });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => res.json(err));
   },
 };
 

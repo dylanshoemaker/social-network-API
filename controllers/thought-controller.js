@@ -1,6 +1,6 @@
 const { Thought, User } = require("../models");
 
-const thoughtController = {
+const thoughtController = { //thoughtController, bit ominous not gonna lie
 
 
 
@@ -45,4 +45,4 @@ const thoughtController = {
   },
 };
 
-module.exports = thoughtController;
+module.exports = thoughtController; 
