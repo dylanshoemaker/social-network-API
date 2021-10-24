@@ -1,8 +1,7 @@
 const { Thought, User } = require("../models");
 
-const thoughtController = { //thoughtController, bit ominous not gonna lie
-
-
+const thoughtController = {
+  //thoughtController, bit ominous not gonna lie
 
   // get all thoughts, doesnt matter if they are intrusive or not
   getAllThoughts(req, res) {
@@ -43,6 +42,22 @@ const thoughtController = { //thoughtController, bit ominous not gonna lie
       })
       .catch((err) => res.json(err));
   },
+  // lets talk about how to properly react to things
+  addReaction({ params, body }, res) {
+    Thought.findOneAndUpdate(
+      { _id: params.thoughtId },
+      { $push: { reactions: body } },
+      { new: true, runValidators: true }
+    )
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
+          res.status(404).json({ message: "The thought must have been forgotten because its nowhere to be found" });
+          return;
+        }
+        res.json(dbThoughtData);
+      })
+      .catch((err) => res.json(err));
+  },
 };
 
-module.exports = thoughtController; 
+module.exports = thoughtController;
